@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo | Sistema Educativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: #f8faff;
+        }
+
+        /* Header/Navbar Superior */
+        .navbar {
+            background: white;
+            padding: 0.75rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 40, 80, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #2b6ef0;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: #0a2540;
+            letter-spacing: -0.02em;
+        }
+
+        .logo i {
+            color: #2b6ef0;
+            font-size: 1.8rem;
+            background: #eef4ff;
+            padding: 0.5rem;
+            border-radius: 12px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem;
+            color: #4a5b6e;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-link i {
+            font-size: 1.1rem;
+            color: #5f7d9c;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #eef4ff;
+            color: #2b6ef0;
+        }
+
+        .nav-link:hover i {
+            color: #2b6ef0;
+        }
+
+        .nav-link.active {
+            background: #2b6ef0;
+            color: white;
+        }
+
+        .nav-link.active i {
+            color: white;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #f8faff;
+            padding: 0.4rem 1rem 0.4rem 1.2rem;
+            border-radius: 40px;
+            border: 1px solid #e2eafc;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #0a2540;
+            font-size: 0.95rem;
+        }
+
+        .user-role {
+            font-size: 0.75rem;
+            color: #2b6ef0;
+            font-weight: 500;
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(145deg, #2b6ef0, #1a4bbf);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 10px rgba(43, 110, 240, 0.3);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: white;
+            border: 1.5px solid #e2eafc;
+            border-radius: 30px;
+            color: #4a5b6e;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #fff2f0;
+            border-color: #ff6b6b;
+            color: #d32f2f;
+        }
+
+        .logout-btn:hover i {
+            color: #d32f2f;
+        }
+
+        /* Contenido Principal */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header de Página */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            color: #0a2540;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .breadcrumb {
+            color: #6b7a8f;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #2b6ef0;
+            text-decoration: none;
+        }
+
+        /* Flash Messages */
+        .flash-messages {
+            margin-bottom: 2rem;
+        }
+
+        .flash-message {
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 500;
+            border-left: 4px solid;
+            background: white;
+            box-shadow: 0 6px 14px rgba(0, 30, 60, 0.05);
+        }
+
+        .flash-success {
+            border-left-color: #2b6ef0;
+            color: #0a2540;
+        }
+
+        .flash-success i {
+            color: #2b6ef0;
+        }
+
+        .flash-danger {
+            border-left-color: #f97373;
+            color: #b91c1c;
+        }
+
+        .flash-info {
+            border-left-color: #3b82f6;
+            color: #1e3a8a;
+        }
+
+        .flash-warning {
+            border-left-color: #f59e0b;
+            color: #92400e;
+        }
+
+        /* Stats Cards - Modernos */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px -5px rgba(43, 110, 240, 0.08);
+            border: 1px solid rgba(43, 110, 240, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            transition: all 0.25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -8px rgba(43, 110, 240, 0.15);
+            border-color: rgba(43, 110, 240, 0.2);
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .stat-icon.blue {
+            background: linear-gradient(145deg, #eef4ff, #e0eaff);
+            color: #2b6ef0;
+        }
+
+        .stat-icon.orange {
+            background: linear-gradient(145deg, #fff4e6, #ffe4cc);
+            color: #f59e0b;
+        }
+
+        .stat-icon.teal {
+            background: linear-gradient(145deg, #e0f2fe, #bae6fd);
+            color: #0e7b9e;
+        }
+
+        .stat-info h3 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #6b7a8f;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.02em;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0a2540;
+            line-height: 1.2;
+        }
+
+        /* Quick Actions */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: #0a2540;
+            border: 1px solid #e2eafc;
+            transition: all 0.25s;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .action-card:hover {
+            border-color: #2b6ef0;
+            box-shadow: 0 15px 30px -12px rgba(43, 110, 240, 0.2);
+            background: #fafcff;
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            background: #eef4ff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #2b6ef0;
+        }
+
+        .action-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .action-card p {
+            font-size: 0.85rem;
+            color: #6b7a8f;
+            line-height: 1.4;
+        }
+
+        /* Tabla de usuarios */
+        .recent-section {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03);
+            border: 1px solid #eef2f6;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #0a2540;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .section-header h2 i {
+            color: #2b6ef0;
+            background: #eef4ff;
+            padding: 0.4rem;
+            border-radius: 10px;
+        }
+
+        .badge-soft {
+            background: #eef4ff;
+            color: #2b6ef0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .users-table th {
+            text-align: left;
+            padding: 1rem 0.5rem 0.8rem 0.5rem;
+            color: #6b7a8f;
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border-bottom: 1.5px solid #e2eafc;
+        }
+
+        .users-table td {
+            padding: 1rem 0.5rem;
+            border-bottom: 1px solid #f0f4fa;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+
+        .users-table tr:hover td {
+            background: #fafcff;
+        }
+
+        .role-badge {
+            padding: 0.3rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            border: 1px solid transparent;
+        }
+
+        .role-aspirante {
+            background: #eef4ff;
+            color: #2b6ef0;
+            border-color: #c7d9ff;
+        }
+
+        .role-docente {
+            background: #e0f2fe;
+            color: #0369a1;
+            border-color: #b6e0fe;
+        }
+
+        .role-directivo {
+            background: #fff4e6;
+            color: #b45309;
+            border-color: #ffd8b0;
+        }
+
+        .status-active {
+            color: #0b7e43;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-weight: 500;
+        }
+
+        .status-active i {
+            color: #12a85e;
+        }
+
+        .status-inactive {
+            color: #b91c1c;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-weight: 500;
+        }
+
+        .status-inactive i {
+            color: #f87171;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 0.75rem 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .navbar-left {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .nav-menu {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .main-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR SUPERIOR (MENÚ ARRIBA) -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{{ url_for('admin.listar_docentes') }}" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Listar Docentes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('admin.listar_directivos') }}" class="nav-link">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Listar Directivos</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="navbar-right">
+            <div class="user-profile">
+                <div class="user-info">
+                    <div class="user-name">{{ current_user.get_nombre_completo() }}</div>
+                    <div class="user-role">Administrador</div>
+                </div>
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            <a href="{{ url_for('auth.logout') }}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Salir</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Dashboard</h1>
+            <div class="breadcrumb">
+                <a href="#">Inicio</a> / Dashboard
+            </div>
+        </div>
+
+        <!-- Flash Messages (exactamente igual funcionalidad) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            <i class="fas fa-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-circle{% elif category == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %}"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Stats Cards (con colores azul/blanco) -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Docentes</h3>
+                    <div class="stat-number">{{ total_docentes }}</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Directivos</h3>
+                    <div class="stat-number">{{ total_directivos }}</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon teal">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Aspirantes</h3>
+                    <div class="stat-number">{{ total_aspirantes }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Acciones rápidas -->
+        <div class="actions-grid">
+            <a href="{{ url_for('admin.crear_docente') }}" class="action-card">
+                <div class="action-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                <h3>Crear Docente</h3>
+                <p>Registrar un nuevo docente en el sistema</p>
+            </a>
+            
+            <a href="{{ url_for('admin.crear_directivo') }}" class="action-card">
+                <div class="action-icon"><i class="fas fa-user-tie"></i></div>
+                <h3>Crear Directivo</h3>
+                <p>Registrar un nuevo directivo</p>
+            </a>
+        </div>
+
+        <!-- Últimos usuarios registrados -->
+        <div class="recent-section">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-clock-rotate-left"></i>
+                    Últimos usuarios registrados
+                </h2>
+                <span class="badge-soft">{{ ultimos_usuarios|length }} registros</span>
+            </div>
+            <div class="table-responsive">
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre completo</th>
+                            <th>Correo electrónico</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Fecha registro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in ultimos_usuarios %}
+                        <tr>
+                            <td>{{ usuario.get_nombre_completo() }}</td>
+                            <td>{{ usuario.correo }}</td>
+                            <td>
+                                <span class="role-badge role-{{ usuario.rol }}">
+                                    {{ usuario.rol|capitalize }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if usuario.activo %}
+                                    <span class="status-active"><i class="fas fa-check-circle"></i> Activo</span>
+                                {% else %}
+                                    <span class="status-inactive"><i class="fas fa-times-circle"></i> Inactivo</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ usuario.created_at.strftime('%d/%m/%Y') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
