@@ -1,0 +1,12 @@
+comeniusdata_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=gd6446017d164d4_comeniusdata_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+comeniusdata_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=gd6446017d164d4_comeniusdata_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+comeniusdata_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=gd6446017d164d4_comeniusdata_low.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+comeniusdata_tp = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=gd6446017d164d4_comeniusdata_tp.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+comeniusdata_tpurgent = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=gd6446017d164d4_comeniusdata_tpurgent.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+
+
